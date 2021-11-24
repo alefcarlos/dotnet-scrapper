@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  scrapperworker:
+    image: scrapperworker
+    build:
+      context: .
+      dockerfile: src/ScrapperWorker/Dockerfile
+    environment:
+        - DOTNET_ENVIRONMENT=Development
+        - DealerRater__PageCount=2

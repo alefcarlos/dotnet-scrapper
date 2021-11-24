@@ -5,6 +5,7 @@ using Scrapper.Application.Dtos;
 using System.Text;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
 
 [assembly: InternalsVisibleTo("Scrapper.Application.Tests")]
 
@@ -14,19 +15,23 @@ namespace Scrapper.Application.Scrappers.DealerRater
     {
         private readonly IBrowsingContext _context;
         private readonly DealerRaterOptions _options;
+        private readonly ILogger _logger;
 
         static readonly Regex ratingClassRegex = new(@"rating-[0-9]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        public DealerRaterScrapper(IOptions<DealerRaterOptions> options)
+        public DealerRaterScrapper(IOptions<DealerRaterOptions> options, ILogger<DealerRaterScrapper> logger)
         {
             var config = Configuration.Default.WithDefaultLoader();
             _context = BrowsingContext.New(config);
 
             _options = options.Value;
+            _logger = logger;
         }
 
         public async IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
         {
+            _logger.LogInformation("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.BaseUrl, _options.PageCount);
+
             var enumerables = Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync);
 
             await foreach (var streams in Zip(enumerables))
