@@ -2,7 +2,7 @@
 {
     public class DealerRaterOptions
     {
-        public string BaseUrl { get; set; } = default!;
-        public int PageCount { get; set; }
+        public string DealerUrl { get; set; } = default!;
+        public int PageCount { get; set; } = 1;
     }
 }
