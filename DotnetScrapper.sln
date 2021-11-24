@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrapper.Application", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scrapper.Application.Tests", "tests\Scrapper.Application.Tests\Scrapper.Application.Tests.csproj", "{5841F558-A7A5-4AAD-B9A9-DE2F1E036997}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6F4142C9-CF33-4D66-B211-92BED1427BAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5841F558-A7A5-4AAD-B9A9-DE2F1E036997} = {6F4142C9-CF33-4D66-B211-92BED1427BAE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5427A913-564D-46D8-9F08-A1D44C26E22E}

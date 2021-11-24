@@ -6,6 +6,8 @@ using System.Text;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
+[assembly: InternalsVisibleTo("Scrapper.Application.Tests")]
+
 namespace Scrapper.Application.Scrappers.DealerRater
 {
     public class DealerRaterScrapper
@@ -27,11 +29,11 @@ namespace Scrapper.Application.Scrappers.DealerRater
         {
             var enumerables = Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync);
 
-            await foreach (var item in Zip(enumerables))
+            await foreach (var streams in Zip(enumerables))
             {
-                foreach (var item2 in item)
+                foreach (var review in streams)
                 {
-                    yield return item2;
+                    yield return review;
                 }
             }
         }
@@ -49,7 +51,7 @@ namespace Scrapper.Application.Scrappers.DealerRater
             }
         }
 
-        public static ReviewEntry ParseReview(IElement review)
+        internal static ReviewEntry ParseReview(IElement review)
         {
             var reviewSummary = review.QuerySelector(".review-date")!;
             var reviewWrapper = review.QuerySelector(".review-wrapper")!;
@@ -64,7 +66,7 @@ namespace Scrapper.Application.Scrappers.DealerRater
             var user = reviewTittle.QuerySelector("span")!.Text()[2..];
             var title = reviewTittle.QuerySelector("h3")!.Text();
             var content = reviewBody.QuerySelector(".tr .td p")!.Text();
-            
+
             return new ReviewEntry(date, user, title, content, rating);
         }
 
