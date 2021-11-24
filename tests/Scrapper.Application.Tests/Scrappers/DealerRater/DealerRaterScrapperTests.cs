@@ -9,7 +9,7 @@ namespace Scrapper.Application.Tests.Scrappers.DealerRater
     public class DealerRaterScrapperTests
     {
         [Fact]
-        public async ValueTask ParseReview_Should_Be_Ok()
+        public async Task ParseReview_Should_Be_Ok()
         {
             //Arrange
             var source = @"
@@ -251,7 +251,7 @@ namespace Scrapper.Application.Tests.Scrappers.DealerRater
                 "We have finally met the sales team and it was FAN-xxxxxx-TASTIC!! We got to buy a new vehicle yesterday! Jeannie Evans is a gem! She helped me pick the truck we wanted, Freddie Thomlinson went above and beyond to help me find discounts to lower our finance amount and Taylor helped us to put the final touches in finance. If you are looking to buy from genuine people and want a GREAT deal, you most definately want to see these guys.  You will NOT regret it! 10 stars out of 5!!",
                 0);
             
-            Assert.Equal(reviewToCompare, reviewParsed);
+            Assert.Equal(reviewToCompare,reviewParsed);
         }
     }
 }
