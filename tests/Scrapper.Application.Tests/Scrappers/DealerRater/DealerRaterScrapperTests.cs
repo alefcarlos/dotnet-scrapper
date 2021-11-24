@@ -8,18 +8,21 @@ namespace Scrapper.Application.Tests.Scrappers.DealerRater
 {
     public class DealerRaterScrapperTests
     {
-        [Fact]
-        public async Task ParseReview_Should_Be_Ok()
+        [Theory]
+        [InlineData("rating-50", 5)]
+        [InlineData("rating-40", 4)]
+        [InlineData("rating-26", 2.6)]
+        public async Task ParseReview_Should_Be_Ok(string ratingClass, decimal expectedRatingValue)
         {
             //Arrange
-            var source = @"
+            var source = $@"
 <div class=""review-entry col-xs-12 text-left pad-none pad-top-lg  border-bottom-teal-lt"">
 <a name=""r8874825""></a>
 <div class=""col-xs-12 col-sm-3 pad-left-none text-center review-date margin-bottom-md"">
     <div class=""italic col-xs-6 col-sm-12 pad-none margin-none font-20"">November 16, 2021</div>
     <div class=""col-xs-6 col-sm-12 pad-none dealership-rating"">
-        <div class=""rating-static visible-xs pad-none margin-none rating-50 pull-right""><span style=""display: none;"" class=""ae-compliance-indent ae-reader-visible""> 5 out of 5 Stars </span></div>
-        <div class=""rating-static hidden-xs rating-50 margin-center""><span style=""display: none;"" class=""ae-compliance-indent ae-reader-visible""> 5 out of 5 Stars </span></div>
+        <div class=""rating-static visible-xs pad-none margin-none {ratingClass} pull-right""><span style=""display: none;"" class=""ae-compliance-indent ae-reader-visible""> 5 out of 5 Stars </span></div>
+        <div class=""rating-static hidden-xs {ratingClass} margin-center""><span style=""display: none;"" class=""ae-compliance-indent ae-reader-visible""> 5 out of 5 Stars </span></div>
         <div class=""col-xs-12 hidden-xs pad-none margin-top-sm small-text dr-grey"">SALES VISIT - NEW</div>
     </div>
 </div>
@@ -207,27 +210,8 @@ namespace Scrapper.Application.Tests.Scrappers.DealerRater
                     </div>
 </div>
 
-<!-- SOCIAL MEDIA AND REVIEW ACTIONS -->
-<div class=""col-xs-12 pad-none review-hide margin-top-lg"">
-    <div class=""pull-left"">
-        <a href=""https://twitter.com/intent/tweet?url=http://www.dealerrater.com/consumer/social/8874825&amp;via=dealerrater&amp;text=Check+out+the+latest+review+on+McKaig+Chevrolet+Buick+-+A+Dealer+For+The+People"" onclick=""window.open('https://twitter.com/intent/tweet?url=http://www.dealerrater.com/consumer/social/8874825&amp;via=dealerrater&amp;text=Check+out+the+latest+review+on+McKaig+Chevrolet+Buick+-+A+Dealer+For+The+People', 'sharer', 'toolbar=0,status=0,width=750,height=500');return false;"" target=""_blank"" rel=""nofollow"" aria-describedby=""audioeye_new_window_message"" onkeypress=""if (event.key === &quot;Enter&quot; || event.key === &quot; &quot;) { event.target.onclick(event); }""><img class=""align-bottom"" height=""20"" src=""https://www.dealerrater.com/ncdn/s/206.20211119.1/Graphics/icons/icon_twitter_sm.png"" alt=""Twitter Social Network""></a>
-        <a href=""http://www.facebook.com/share.php?u=http://www.dealerrater.com/consumer/social/8874825"" onclick=""window.open('http://www.facebook.com/share.php?u=http://www.dealerrater.com/consumer/social/8874825', 'sharer', 'toolbar=0,status=0,width=750,height=500');return false;"" target=""_blank"" rel=""nofollow"" aria-describedby=""audioeye_new_window_message"" onkeypress=""if (event.key === &quot;Enter&quot; || event.key === &quot; &quot;) { event.target.onclick(event); }""><img class=""align-bottom"" height=""20"" src=""https://www.dealerrater.com/ncdn/s/206.20211119.1/Graphics/icons/icon_facebook_sm.png"" alt=""Facebook Social Network""></a>
-    </div>
-    <div class=""pull-left margin-left-md"">
-        <a href=""#"" onclick=""javascript:window.reportReview(8874825); return false;"" class=""small-text"" onkeypress=""if (event.key === &quot;Enter&quot; || event.key === &quot; &quot;) { event.target.onclick(event); }"">Report</a> |
-        <a href=""#"" onclick=""window.open('/consumer/dealer/23685/review/8874825/print', 'report', 'toolbar=no,scrollbars=yes,location=no,width=720,height=400,resizable=yes'); return false;"" class=""small-text"" onkeypress=""if (event.key === &quot;Enter&quot; || event.key === &quot; &quot;) { event.target.onclick(event); }"">Print</a>
-    </div>
-</div>
-
 <!-- PUBLIC MESSAGES -->
 
-<!-- WAS HELPFUL SECTION -->
-<div class=""col-xs-12 margin-bottom-lg"">
-    <div class=""pull-right"">
-        <a href=""#"" class=""helpful-button"" onclick=""javascript:MarkReviewHelpful(8874825, this); return false;"" onkeypress=""if (event.key === &quot;Enter&quot; || event.key === &quot; &quot;) { event.target.onclick(event); }"">
-            <img class=""pull-left margin-right-sm"" src=""https://www.dealerrater.com/ncdn/s/206.20211119.1/Graphics/icons/icon-thumbsup.png"" alt=""""> Helpful <span class=""helpful-count display-none"" id=""helpful_count_8874825"">0</span></a>
-    </div>
-</div>
 </div>
 
 </div>";
@@ -247,11 +231,11 @@ namespace Scrapper.Application.Tests.Scrappers.DealerRater
             //Assert
             var reviewToCompare = new ReviewEntry("November 16, 2021",
                 "brendareynolds",
-                @"""We have finally met the sales team and it was...""", 
+                @"""We have finally met the sales team and it was...""",
                 "We have finally met the sales team and it was FAN-xxxxxx-TASTIC!! We got to buy a new vehicle yesterday! Jeannie Evans is a gem! She helped me pick the truck we wanted, Freddie Thomlinson went above and beyond to help me find discounts to lower our finance amount and Taylor helped us to put the final touches in finance. If you are looking to buy from genuine people and want a GREAT deal, you most definately want to see these guys.  You will NOT regret it! 10 stars out of 5!!",
-                0);
-            
-            Assert.Equal(reviewToCompare,reviewParsed);
+                expectedRatingValue);
+
+            Assert.Equal(reviewToCompare, reviewParsed);
         }
     }
 }

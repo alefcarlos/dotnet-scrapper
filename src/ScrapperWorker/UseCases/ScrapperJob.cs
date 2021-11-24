@@ -19,7 +19,7 @@ namespace ScrapperWorker
 
             await foreach (var item in _scrapper.GetReviewsAsync())
             {
-                _logger.LogInformation(item.Date);
+                _logger.LogInformation(item.ToString());
             }
 
             _logger.LogInformation("DealerRaterScrapperJob Executed");

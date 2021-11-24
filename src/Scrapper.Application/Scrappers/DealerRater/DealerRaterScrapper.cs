@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Scrapper.Application.Dtos;
 using System.Text;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Scrapper.Application.Scrappers.DealerRater
 {
@@ -11,6 +12,8 @@ namespace Scrapper.Application.Scrappers.DealerRater
     {
         private readonly IBrowsingContext _context;
         private readonly DealerRaterOptions _options;
+
+        static readonly Regex ratingClassRegex = new(@"rating-[0-9]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public DealerRaterScrapper(IOptions<DealerRaterOptions> options)
         {
@@ -28,7 +31,7 @@ namespace Scrapper.Application.Scrappers.DealerRater
             {
                 foreach (var item2 in item)
                 {
-                   yield return item2;
+                    yield return item2;
                 }
             }
         }
@@ -53,12 +56,15 @@ namespace Scrapper.Application.Scrappers.DealerRater
             var reviewTittle = reviewWrapper.QuerySelector("div:nth-of-type(1)")!;
             var reviewBody = reviewWrapper.QuerySelector("div:nth-of-type(2)")!;
 
+            var ratingElement = reviewSummary.QuerySelector(".dealership-rating div:nth-of-type(1)")!;
+            var ratingClass = ratingElement.ClassList.Where(c => ratingClassRegex.IsMatch(c)).First();
+            var rating = decimal.Parse(ratingClass[7..]) / 10m;
+
             var date = reviewSummary.QuerySelector("div:nth-of-type(1)")!.Text();
             var user = reviewTittle.QuerySelector("span")!.Text()[2..];
             var title = reviewTittle.QuerySelector("h3")!.Text();
             var content = reviewBody.QuerySelector(".tr .td p")!.Text();
-            var rating = 0;
-
+            
             return new ReviewEntry(date, user, title, content, rating);
         }
 
