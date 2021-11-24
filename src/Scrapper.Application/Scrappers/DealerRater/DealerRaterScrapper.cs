@@ -30,7 +30,7 @@ namespace Scrapper.Application.Scrappers.DealerRater
 
         public async IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
         {
-            _logger.LogInformation("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.BaseUrl, _options.PageCount);
+            _logger.LogInformation("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.DealerUrl, _options.PageCount);
 
             var enumerables = Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync);
 
@@ -77,9 +77,9 @@ namespace Scrapper.Application.Scrappers.DealerRater
 
         private string BuildUrl(int page)
         {
-            var baseUrlBuilder = new StringBuilder(_options.BaseUrl);
+            var baseUrlBuilder = new StringBuilder(_options.DealerUrl);
 
-            if (!_options.BaseUrl.EndsWith("/"))
+            if (!_options.DealerUrl.EndsWith("/"))
                 baseUrlBuilder.Append('/');
 
             return $"{baseUrlBuilder}page{page}/?filter=ONLY_POSITIVE#link";
