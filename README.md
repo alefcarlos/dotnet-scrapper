@@ -28,6 +28,7 @@ It is possible to configure Scrapper using these envs:
 | DealerRater__BaseUrl   | Base url             | https://www.dealerrater.com/dealer/                                 |
 | DealerRater__Dealer    | Dealer url           | McKaig-Chevrolet-Buick-A-Dealer-For-The-People-dealer-reviews-23685 |
 | DealerRater__Rank      | Rank Quantity        | 3                                                                   |
+| DealerRater__Threshold | Rank Threshold       | 5                                                                   |
 
 
 ## Unit tests
