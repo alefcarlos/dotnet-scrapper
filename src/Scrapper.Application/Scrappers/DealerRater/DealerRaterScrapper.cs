@@ -28,23 +28,17 @@ namespace Scrapper.Application.Scrappers.DealerRater
             _logger = logger;
         }
 
-        public async IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
+        public IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
         {
-            _logger.LogInformation("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.DealerUrl, _options.PageCount);
+            _logger.LogDebug("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.DealerUrl, _options.PageCount);
 
-            var enumerables = Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync);
-
-            await foreach (var streams in Zip(enumerables))
-            {
-                foreach (var review in streams)
-                {
-                    yield return review;
-                }
-            }
+            return Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync).Merge();
         }
 
         public async IAsyncEnumerable<ReviewEntry> GetReviewsAsync(int currentPage)
         {
+            _logger.LogDebug("Fetching page {currentPage}", currentPage);
+
             var targetUrl = BuildUrl(currentPage);
             var document = await _context.OpenAsync(targetUrl);
 
@@ -83,35 +77,6 @@ namespace Scrapper.Application.Scrappers.DealerRater
                 baseUrlBuilder.Append('/');
 
             return $"{baseUrlBuilder}page{page}/?filter=ONLY_POSITIVE#link";
-        }
-
-        public static async IAsyncEnumerable<TSource[]> Zip<TSource>(
-            IEnumerable<IAsyncEnumerable<TSource>> sources,
-            [EnumeratorCancellation] CancellationToken cancellationToken = default)
-        {
-            var enumerators = sources
-                .Select(x => x.GetAsyncEnumerator(cancellationToken))
-                .ToArray();
-            try
-            {
-                while (true)
-                {
-                    var array = new TSource[enumerators.Length];
-                    for (int i = 0; i < enumerators.Length; i++)
-                    {
-                        if (!await enumerators[i].MoveNextAsync()) yield break;
-                        array[i] = enumerators[i].Current;
-                    }
-                    yield return array;
-                }
-            }
-            finally
-            {
-                foreach (var enumerator in enumerators)
-                {
-                    await enumerator.DisposeAsync();
-                }
-            }
         }
     }
 }

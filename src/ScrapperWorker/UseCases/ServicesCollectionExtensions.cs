@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddUseCases(this IServiceCollection services)
         {
-            services.AddHostedService<ScrapperJob>();
+            services.AddHostedService<EvalueateMostPositiveByUser>();
 
             return services;
         }

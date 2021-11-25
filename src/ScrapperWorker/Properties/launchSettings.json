@@ -7,8 +7,12 @@
       },
       "dotnetRunMessages": true
     },
-    "Docker": {
-      "commandName": "Docker"
+    "WSL": {
+      "commandName": "WSL2",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "distributionName": ""
     }
   }
 }
