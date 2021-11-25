@@ -22,7 +22,7 @@ public class EvalueatePossibleFakeReviews : BackgroundService
     {
         _logger.LogDebug("Initializing EvalueateMostPositiveByUser");
 
-        var ranked = _scrapper.GetReviewsAsync().RankByMeanOfDetails(take: _options.Rank);
+        var ranked = _scrapper.GetReviewsAsync().RankByMeanOfDetails(take: _options.Rank, threshold: _options.Threshold);
 
         var table = new Table()
                         .Centered()
@@ -30,6 +30,8 @@ public class EvalueatePossibleFakeReviews : BackgroundService
         
         table.AddColumn("Username");
         table.AddColumn("Tittle");
+        table.AddColumn("Rating");
+        table.AddColumn("Detailed Rating Mean");
         table.AddColumn("Difference");
 
         await AnsiConsole.Status()
@@ -39,6 +41,8 @@ public class EvalueatePossibleFakeReviews : BackgroundService
                 {
                     table.AddRow(new Markup($"[blue]{item.Review.User}[/]"),
                     new Markup($"[green]{item.Review.Title}[/]"),
+                    new Markup($"[green]{item.Review.Rating}[/]"),
+                    new Markup($"[green]{item.Review.DetailRatingsMean()}[/]"),
                     new Markup($"[red]{item.Difference}[/]")
                     );
                 }

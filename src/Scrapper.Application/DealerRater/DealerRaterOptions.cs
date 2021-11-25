@@ -6,5 +6,6 @@ public class DealerRaterOptions
     public string Dealer { get; set; } = default!;
     public int PageCount { get; set; } = 1;
     public int Rank { get; set; } = 1;
+    public decimal Threshold { get; set; } = 5;
 }
 
