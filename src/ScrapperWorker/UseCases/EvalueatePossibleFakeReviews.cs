@@ -32,6 +32,7 @@ public class EvalueatePossibleFakeReviews : BackgroundService
         table.AddColumn("Tittle");
         table.AddColumn("Rating");
         table.AddColumn("Detailed Rating Mean");
+        table.AddColumn("Threshold");
         table.AddColumn("Difference");
 
         await AnsiConsole.Status()
@@ -43,6 +44,7 @@ public class EvalueatePossibleFakeReviews : BackgroundService
                     new Markup($"[green]{item.Review.Title}[/]"),
                     new Markup($"[green]{item.Review.Rating}[/]"),
                     new Markup($"[green]{item.Review.DetailRatingsMean()}[/]"),
+                    new Markup($"[red]{_options.Threshold}[/]"),
                     new Markup($"[red]{item.Difference}[/]")
                     );
                 }
