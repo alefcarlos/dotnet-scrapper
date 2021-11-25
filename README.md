@@ -13,10 +13,12 @@ It scrappes `N` review pages for an specific dealer and evaluates them
 5. Filter candidates that would be a fake review
 ```
 
+### How to run
+
 ```
 docker compose up
 ```
-### Configurations
+#### Configurations
 
 It is possible to configure Scrapper using these envs:
 
