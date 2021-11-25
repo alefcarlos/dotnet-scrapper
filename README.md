@@ -39,4 +39,6 @@ It is possible to run unit tests using Docker
 docker run --rm -v ${pwd}:/app -w /app/tests/Scrapper.Application.Tests mcr.microsoft.com/dotnet/sdk:6.0 dotnet test --logger:trx
 ```
 
+## Example
 
+[![asciicast](https://asciinema.org/a/fUD4B3PiIPzpXtLrLd3sJm0vx.svg)](https://asciinema.org/a/fUD4B3PiIPzpXtLrLd3sJm0vx)
