@@ -1,5 +1,4 @@
 ﻿using AngleSharp;
-using Moq;
 using Scrapper.Application.Dtos;
 using Scrapper.Application.Scrappers.DealerRater;
 using System.Threading.Tasks;
