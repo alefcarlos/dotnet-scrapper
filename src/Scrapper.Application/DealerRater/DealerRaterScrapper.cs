@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Text;
 
-namespace Scrapper.Application.Scrappers.DealerRater;
+namespace Scrapper.Application.DealerRater;
 public class DealerRaterScrapper
 {
     private readonly IBrowsingContext _context;

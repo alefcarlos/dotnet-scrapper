@@ -6,7 +6,7 @@ public static class ServicesCollectionExtensions
 {
     public static IServiceCollection AddUseCases(this IServiceCollection services)
     {
-        services.AddHostedService<EvalueateMostPositiveByUser>();
+        services.AddHostedService<EvalueatePossibleFakeReviews>();
 
         return services;
     }

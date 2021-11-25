@@ -1,4 +1,4 @@
-﻿using Scrapper.Application.Scrappers.DealerRater;
+﻿using Scrapper.Application.DealerRater;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

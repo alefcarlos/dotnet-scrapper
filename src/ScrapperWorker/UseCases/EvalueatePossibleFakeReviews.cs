@@ -1,17 +1,17 @@
 using Microsoft.Extensions.Options;
+using Scrapper.Application.DealerRater;
 using Scrapper.Application.ReviewsEvaluation.RankByUsers;
-using Scrapper.Application.Scrappers.DealerRater;
 using Spectre.Console;
 
 namespace ScrapperWorker;
-public class EvalueateMostPositiveByUser : BackgroundService
+public class EvalueatePossibleFakeReviews : BackgroundService
 {
-    private readonly ILogger<EvalueateMostPositiveByUser> _logger;
+    private readonly ILogger<EvalueatePossibleFakeReviews> _logger;
     private readonly DealerRaterScrapper _scrapper;
     private readonly DealerRaterOptions _options;
 
 
-    public EvalueateMostPositiveByUser(ILogger<EvalueateMostPositiveByUser> logger, DealerRaterScrapper scrapper, IOptions<DealerRaterOptions> options)
+    public EvalueatePossibleFakeReviews(ILogger<EvalueatePossibleFakeReviews> logger, DealerRaterScrapper scrapper, IOptions<DealerRaterOptions> options)
     {
         _logger = logger;
         _scrapper = scrapper;
@@ -22,24 +22,24 @@ public class EvalueateMostPositiveByUser : BackgroundService
     {
         _logger.LogDebug("Initializing EvalueateMostPositiveByUser");
 
-        var ranked = _scrapper.GetReviewsAsync().RankByUsers(take: _options.Rank);
+        var ranked = _scrapper.GetReviewsAsync().RankByMeanOfDetails(take: _options.Rank);
 
         var table = new Table()
                         .Centered()
                         .Border(TableBorder.Rounded);
-
+        
         table.AddColumn("Username");
-        table.AddColumn("Total Reviews");
-        table.AddColumn("Sum of Ratings");
+        table.AddColumn("Tittle");
+        table.AddColumn("Difference");
 
         await AnsiConsole.Status()
             .StartAsync("[yellow]Evaluating reviews using RankByUsers...[/]", async ctx =>
             {
                 await foreach (var item in ranked)
                 {
-                    table.AddRow(new Markup($"[blue]{item.User}[/]"),
-                    new Markup($"[green]{item.TotalReviews}[/]"),
-                    new Markup($"[red]{item.SumOfRatings}[/]")
+                    table.AddRow(new Markup($"[blue]{item.Review.User}[/]"),
+                    new Markup($"[green]{item.Review.Title}[/]"),
+                    new Markup($"[red]{item.Difference}[/]")
                     );
                 }
 

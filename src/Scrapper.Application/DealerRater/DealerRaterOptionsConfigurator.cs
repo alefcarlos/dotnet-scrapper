@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Scrapper.Application.Scrappers.DealerRater;
+namespace Scrapper.Application.DealerRater;
 
 public class DealerRaterOptionsConfigurator : IConfigureOptions<DealerRaterOptions>
 {

@@ -1,4 +1,4 @@
-﻿namespace Scrapper.Application.Scrappers.DealerRater;
+﻿namespace Scrapper.Application.DealerRater;
 
 public class DealerRaterOptions
 {
