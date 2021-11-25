@@ -33,7 +33,7 @@ public class EvalueatePossibleFakeReviews : BackgroundService
         table.AddColumn("Difference");
 
         await AnsiConsole.Status()
-            .StartAsync("[yellow]Evaluating reviews using RankByUsers...[/]", async ctx =>
+            .StartAsync("[yellow]Evaluating reviews using RankByMeanOfDetails...[/]", async ctx =>
             {
                 await foreach (var item in ranked)
                 {

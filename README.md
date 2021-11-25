@@ -2,7 +2,16 @@
 
 ## Get started
 
-It scrappes `N` review pages for an specific dealer and evaluates them to select the top `K` suspicious users with positve ratings.
+It scrappes `N` review pages for an specific dealer and evaluates them
+
+### Evaluate logic
+
+```
+1. Select all rating values equal to  5
+2. Sum all detailed ratings
+3. Calculate mean of that sum
+5. Filter candidates that would be a fake review
+```
 
 ```
 docker compose up

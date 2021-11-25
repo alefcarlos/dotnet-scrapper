@@ -4,8 +4,8 @@ public static class RankByMeanOfDetailsEval
 {
     /// <summary>
     /// 1. Select all ratings with 5
-    /// 1. Sum all details ratings
-    /// 2. Filter details ratings mean value
+    /// 2. Sum all details ratings
+    /// 3. Filter details ratings mean value
     /// </summary>
     /// <param name="source"></param>
     /// <param name="take"></param>
