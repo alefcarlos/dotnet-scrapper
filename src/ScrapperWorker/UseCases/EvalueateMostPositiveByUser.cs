@@ -48,7 +48,7 @@ namespace ScrapperWorker
             // Render the table to the console
             AnsiConsole.Write(table);
 
-            _logger.LogInformation("Press CTRL+C to finish");
+            _logger.LogWarning("Press CTRL+C to finish");
             _logger.LogDebug("EvalueateMostPositiveByUser Executed");
         }
     }
