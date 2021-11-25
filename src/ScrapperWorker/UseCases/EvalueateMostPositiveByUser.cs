@@ -29,14 +29,18 @@ public class EvalueateMostPositiveByUser : BackgroundService
                         .Border(TableBorder.Rounded);
 
         table.AddColumn("Username");
-        table.AddColumn("Sum of Rating");
+        table.AddColumn("Total Reviews");
+        table.AddColumn("Sum of Ratings");
 
         await AnsiConsole.Status()
             .StartAsync("[yellow]Evaluating reviews using RankByUsers...[/]", async ctx =>
             {
                 await foreach (var item in ranked)
                 {
-                    table.AddRow(new Markup($"[blue]{item.User}[/]"), new Markup($"[green]{item.TotalRating}[/]"));
+                    table.AddRow(new Markup($"[blue]{item.User}[/]"),
+                    new Markup($"[green]{item.TotalReviews}[/]"),
+                    new Markup($"[red]{item.SumOfRatings}[/]")
+                    );
                 }
 
                 ctx.Refresh();

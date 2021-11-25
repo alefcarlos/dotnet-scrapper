@@ -51,13 +51,13 @@ namespace Scrapper.Application.Tests.ReviewsEvaluation.RankByUsers
 
             var serialized = await result.ToListAsync();
 
-            RankedByUser expectedFirst = new("alef", 14);
+            RankedByUser expectedFirst = new("alef", 3, 14);
             Assert.Equal(expectedFirst, serialized[0]);
 
-            RankedByUser expectedSecond = new("alef3", 10);
+            RankedByUser expectedSecond = new("alef3", 2, 10);
             Assert.Equal(expectedSecond, serialized[1]);
 
-            RankedByUser expectedThird = new("alef8", 9);
+            RankedByUser expectedThird = new("alef8", 1, 9);
             Assert.Equal(expectedThird, serialized[2]);
         }
     }
