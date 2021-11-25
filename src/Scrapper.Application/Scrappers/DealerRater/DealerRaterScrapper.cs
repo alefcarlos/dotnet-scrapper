@@ -18,7 +18,6 @@ namespace Scrapper.Application.Scrappers.DealerRater
         private readonly ILogger _logger;
 
         static readonly Regex ratingClassRegex = new(@"rating-[0-9]+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         public DealerRaterScrapper(IOptions<DealerRaterOptions> options, ILogger<DealerRaterScrapper> logger)
         {
             var config = Configuration.Default.WithDefaultLoader();
@@ -50,6 +49,7 @@ namespace Scrapper.Application.Scrappers.DealerRater
             }
         }
 
+        static internal bool IsRatingClass(string input) => ratingClassRegex.IsMatch(input);
         internal static ReviewEntry ParseReview(IElement review)
         {
             var reviewSummary = review.QuerySelector(".review-date")!;
@@ -58,7 +58,7 @@ namespace Scrapper.Application.Scrappers.DealerRater
             var reviewBody = reviewWrapper.QuerySelector("div:nth-of-type(2)")!;
 
             var ratingElement = reviewSummary.QuerySelector(".dealership-rating div:nth-of-type(1)")!;
-            var ratingClass = ratingElement.ClassList.Where(c => ratingClassRegex.IsMatch(c)).First();
+            var ratingClass = ratingElement.ClassList.Where(IsRatingClass).First();
             var rating = decimal.Parse(ratingClass[7..]) / 10m;
 
             var date = reviewSummary.QuerySelector("div:nth-of-type(1)")!.Text();

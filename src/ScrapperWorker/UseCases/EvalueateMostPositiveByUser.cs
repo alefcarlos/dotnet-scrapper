@@ -35,7 +35,7 @@ namespace ScrapperWorker
             table.AddColumn("Sum of Rating");
 
             await AnsiConsole.Status()
-                .StartAsync("[yellow]Evaluating review using RankByUsers...[/]", async ctx =>
+                .StartAsync("[yellow]Evaluating reviews using RankByUsers...[/]", async ctx =>
                 {
                     await foreach (var item in ranked)
                     {
