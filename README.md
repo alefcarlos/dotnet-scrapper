@@ -1,4 +1,4 @@
-# dotnet-scrapper
+# dotnet-scrapper [![build](https://github.com/alefcarlos/dotnet-scrapper/actions/workflows/ci.yml/badge.svg)](https://github.com/alefcarlos/dotnet-scrapper/actions/workflows/ci.yml)
 
 ## Get started
 
