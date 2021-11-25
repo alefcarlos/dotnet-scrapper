@@ -1,5 +1,6 @@
 # dotnet-scrapper
 
+It scrappes reviews from `www.dealerrater.com` and evaluates reviews ranked by Username and sum of POSITIVE ratings.
 ## How to run
 
 ```

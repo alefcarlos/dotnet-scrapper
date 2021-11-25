@@ -27,7 +27,7 @@ namespace ScrapperWorker
                             .Border(TableBorder.Rounded);
 
             // Add some columns
-            table.AddColumn("User name");
+            table.AddColumn("Username");
             table.AddColumn("Sum of Rating");
 
             await AnsiConsole.Status()
