@@ -226,7 +226,7 @@ namespace Scrapper.Application.Tests.Scrappers.DealerRater
             var document = await context.OpenAsync(req => req.Content(source));
 
             //Act
-            var reviewParsed = DealerRaterScrapper.ParseReview(document.DocumentElement)!;
+            var reviewParsed = document.DocumentElement.ParseReview()!;
 
             //Assert
             var reviewToCompare = new ReviewEntry("November 16, 2021",
