@@ -10,7 +10,7 @@ It scrappes `N` review pages for an specific dealer and evaluates them
 1. Select all rating values equal to  5
 2. Sum all detailed ratings
 3. Calculate mean of that sum
-5. Filter candidates that would be a fake review
+5. Filter candidates that would be a fake review using 5 as a threshold
 ```
 
 ### How to run
