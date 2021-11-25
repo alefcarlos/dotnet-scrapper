@@ -1,56 +1,53 @@
 ﻿using AngleSharp;
-using Microsoft.Extensions.Options;
-using Scrapper.Application.Dtos;
-using System.Text;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System.Text;
 
-namespace Scrapper.Application.Scrappers.DealerRater
+namespace Scrapper.Application.Scrappers.DealerRater;
+public class DealerRaterScrapper
 {
-    public class DealerRaterScrapper
+    private readonly IBrowsingContext _context;
+    private readonly DealerRaterOptions _options;
+    private readonly ILogger _logger;
+
+    public DealerRaterScrapper(IOptions<DealerRaterOptions> options, ILogger<DealerRaterScrapper> logger)
     {
-        private readonly IBrowsingContext _context;
-        private readonly DealerRaterOptions _options;
-        private readonly ILogger _logger;
+        var config = Configuration.Default.WithDefaultLoader();
+        _context = BrowsingContext.New(config);
 
-        public DealerRaterScrapper(IOptions<DealerRaterOptions> options, ILogger<DealerRaterScrapper> logger)
+        _options = options.Value;
+        _logger = logger;
+    }
+
+    public IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
+    {
+        _logger.LogDebug("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.DealerUrl, _options.PageCount);
+
+        return Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync).Merge();
+    }
+
+    public async IAsyncEnumerable<ReviewEntry> GetReviewsAsync(int currentPage)
+    {
+        _logger.LogDebug("Fetching page {currentPage}", currentPage);
+
+        var targetUrl = BuildUrl(currentPage);
+        var document = await _context.OpenAsync(targetUrl);
+
+        var reviews = document.QuerySelectorAll("#reviews .review-section .review-entry");
+
+        foreach (var review in reviews)
         {
-            var config = Configuration.Default.WithDefaultLoader();
-            _context = BrowsingContext.New(config);
-
-            _options = options.Value;
-            _logger = logger;
+            yield return review.ParseReview();
         }
+    }
 
-        public IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
-        {
-            _logger.LogDebug("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.DealerUrl, _options.PageCount);
+    private string BuildUrl(int page)
+    {
+        var baseUrlBuilder = new StringBuilder(_options.DealerUrl);
 
-            return Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync).Merge();
-        }
+        if (!_options.DealerUrl.EndsWith("/"))
+            baseUrlBuilder.Append('/');
 
-        public async IAsyncEnumerable<ReviewEntry> GetReviewsAsync(int currentPage)
-        {
-            _logger.LogDebug("Fetching page {currentPage}", currentPage);
-
-            var targetUrl = BuildUrl(currentPage);
-            var document = await _context.OpenAsync(targetUrl);
-
-            var reviews = document.QuerySelectorAll("#reviews .review-section .review-entry");
-
-            foreach (var review in reviews)
-            {
-                yield return review.ParseReview();
-            }
-        }
-
-        private string BuildUrl(int page)
-        {
-            var baseUrlBuilder = new StringBuilder(_options.DealerUrl);
-
-            if (!_options.DealerUrl.EndsWith("/"))
-                baseUrlBuilder.Append('/');
-
-            return $"{baseUrlBuilder}page{page}/?filter=ONLY_POSITIVE#link";
-        }
+        return $"{baseUrlBuilder}page{page}/?filter=ONLY_POSITIVE#link";
     }
 }

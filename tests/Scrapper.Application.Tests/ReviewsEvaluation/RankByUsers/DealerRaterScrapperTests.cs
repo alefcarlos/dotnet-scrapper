@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Scrapper.Application.Dtos;
-using Xunit;
+﻿using Scrapper.Application.ReviewsEvaluation.RankByUsers;
+using System.Collections.Generic;
 using System.Linq;
-using Scrapper.Application.ReviewsEvaluation.RankByUsers;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace Scrapper.Application.Tests.ReviewsEvaluation.RankByUsers
 {

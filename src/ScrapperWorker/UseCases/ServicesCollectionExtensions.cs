@@ -1,14 +1,14 @@
 ﻿using ScrapperWorker;
 
-namespace Microsoft.Extensions.DependencyInjection
-{
-    public static class ServicesCollectionExtensions
-    {
-        public static IServiceCollection AddUseCases(this IServiceCollection services)
-        {
-            services.AddHostedService<EvalueateMostPositiveByUser>();
+namespace Microsoft.Extensions.DependencyInjection;
 
-            return services;
-        }
+public static class ServicesCollectionExtensions
+{
+    public static IServiceCollection AddUseCases(this IServiceCollection services)
+    {
+        services.AddHostedService<EvalueateMostPositiveByUser>();
+
+        return services;
     }
 }
+

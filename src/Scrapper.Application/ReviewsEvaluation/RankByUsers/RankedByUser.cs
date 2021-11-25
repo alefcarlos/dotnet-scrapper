@@ -1,4 +1,4 @@
-﻿namespace Scrapper.Application.ReviewsEvaluation.RankByUsers
-{
-    public record RankedByUser(string User, decimal TotalRating);
-}
+﻿namespace Scrapper.Application.ReviewsEvaluation.RankByUsers;
+
+public record RankedByUser(string User, decimal TotalRating);
+

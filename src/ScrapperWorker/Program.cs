@@ -1,5 +1,3 @@
-using ScrapperWorker;
-
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {

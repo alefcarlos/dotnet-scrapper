@@ -1,20 +1,20 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Scrapper.Application.Scrappers.DealerRater
+namespace Scrapper.Application.Scrappers.DealerRater;
+
+public class DealerRaterOptionsConfigurator : IConfigureOptions<DealerRaterOptions>
 {
-    public class DealerRaterOptionsConfigurator : IConfigureOptions<DealerRaterOptions>
+    private readonly IConfiguration Configuration;
+
+    public DealerRaterOptionsConfigurator(IConfiguration configuration)
     {
-        private readonly IConfiguration Configuration;
+        Configuration = configuration;
+    }
 
-        public DealerRaterOptionsConfigurator(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public void Configure(DealerRaterOptions options)
-        {
-            Configuration.GetSection("DealerRater").Bind(options);
-        }
+    public void Configure(DealerRaterOptions options)
+    {
+        Configuration.GetSection("DealerRater").Bind(options);
     }
 }
+

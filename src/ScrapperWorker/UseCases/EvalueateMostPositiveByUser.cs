@@ -3,53 +3,51 @@ using Scrapper.Application.ReviewsEvaluation.RankByUsers;
 using Scrapper.Application.Scrappers.DealerRater;
 using Spectre.Console;
 
-namespace ScrapperWorker
+namespace ScrapperWorker;
+public class EvalueateMostPositiveByUser : BackgroundService
 {
-    public class EvalueateMostPositiveByUser : BackgroundService
+    private readonly ILogger<EvalueateMostPositiveByUser> _logger;
+    private readonly DealerRaterScrapper _scrapper;
+    private readonly DealerRaterOptions _options;
+
+
+    public EvalueateMostPositiveByUser(ILogger<EvalueateMostPositiveByUser> logger, DealerRaterScrapper scrapper, IOptions<DealerRaterOptions> options)
     {
-        private readonly ILogger<EvalueateMostPositiveByUser> _logger;
-        private readonly DealerRaterScrapper _scrapper;
-        private readonly DealerRaterOptions _options;
+        _logger = logger;
+        _scrapper = scrapper;
+        _options = options.Value;
+    }
 
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        _logger.LogDebug("Initializing EvalueateMostPositiveByUser");
 
-        public EvalueateMostPositiveByUser(ILogger<EvalueateMostPositiveByUser> logger, DealerRaterScrapper scrapper, IOptions<DealerRaterOptions> options)
-        {
-            _logger = logger;
-            _scrapper = scrapper;
-            _options = options.Value;
-        }
+        var ranked = _scrapper.GetReviewsAsync().RankByUsers(take: _options.Rank);
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            _logger.LogDebug("Initializing EvalueateMostPositiveByUser");
+        // Create a table
+        var table = new Table()
+                        .Centered()
+                        .Border(TableBorder.Rounded);
 
-            var ranked = _scrapper.GetReviewsAsync().RankByUsers(take: _options.Rank);
+        // Add some columns
+        table.AddColumn("Username");
+        table.AddColumn("Sum of Rating");
 
-            // Create a table
-            var table = new Table()
-                            .Centered()
-                            .Border(TableBorder.Rounded);
-
-            // Add some columns
-            table.AddColumn("Username");
-            table.AddColumn("Sum of Rating");
-
-            await AnsiConsole.Status()
-                .StartAsync("[yellow]Evaluating reviews using RankByUsers...[/]", async ctx =>
+        await AnsiConsole.Status()
+            .StartAsync("[yellow]Evaluating reviews using RankByUsers...[/]", async ctx =>
+            {
+                await foreach (var item in ranked)
                 {
-                    await foreach (var item in ranked)
-                    {
-                        table.AddRow(new Markup($"[blue]{item.User}[/]"), new Markup($"[green]{item.TotalRating}[/]"));
-                    }
+                    table.AddRow(new Markup($"[blue]{item.User}[/]"), new Markup($"[green]{item.TotalRating}[/]"));
+                }
 
-                    ctx.Refresh();
-                });
+                ctx.Refresh();
+            });
 
-            // Render the table to the console
-            AnsiConsole.Write(table);
+        // Render the table to the console
+        AnsiConsole.Write(table);
 
-            _logger.LogWarning("Press CTRL+C to finish");
-            _logger.LogDebug("EvalueateMostPositiveByUser Executed");
-        }
+        _logger.LogWarning("Press CTRL+C to finish");
+        _logger.LogDebug("EvalueateMostPositiveByUser Executed");
     }
 }
