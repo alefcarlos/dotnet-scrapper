@@ -8,4 +8,3 @@ services:
       dockerfile: src/ScrapperWorker/Dockerfile
     environment:
         - DOTNET_ENVIRONMENT=Development
-        - DealerRater__PageCount=5

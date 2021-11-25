@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using Scrapper.Application.ReviewsEvaluation.RankByUsers;
 using Scrapper.Application.Scrappers.DealerRater;
 using Spectre.Console;
@@ -8,18 +9,21 @@ namespace ScrapperWorker
     {
         private readonly ILogger<EvalueateMostPositiveByUser> _logger;
         private readonly DealerRaterScrapper _scrapper;
+        private readonly DealerRaterOptions _options;
 
-        public EvalueateMostPositiveByUser(ILogger<EvalueateMostPositiveByUser> logger, DealerRaterScrapper scrapper)
+
+        public EvalueateMostPositiveByUser(ILogger<EvalueateMostPositiveByUser> logger, DealerRaterScrapper scrapper, IOptions<DealerRaterOptions> options)
         {
             _logger = logger;
             _scrapper = scrapper;
+            _options = options.Value;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogDebug("Initializing EvalueateMostPositiveByUser");
 
-            var ranked = _scrapper.GetReviewsAsync().RankByUsers();
+            var ranked = _scrapper.GetReviewsAsync().RankByUsers(take: _options.Rank);
 
             // Create a table
             var table = new Table()
@@ -31,7 +35,7 @@ namespace ScrapperWorker
             table.AddColumn("Sum of Rating");
 
             await AnsiConsole.Status()
-                .StartAsync("[yellow]Evaluating RankByUsers...[/]", async ctx =>
+                .StartAsync("[yellow]Evaluating review using RankByUsers...[/]", async ctx =>
                 {
                     await foreach (var item in ranked)
                     {
