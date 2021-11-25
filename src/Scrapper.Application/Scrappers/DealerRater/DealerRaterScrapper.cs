@@ -21,7 +21,7 @@ public class DealerRaterScrapper
 
     public IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
     {
-        _logger.LogDebug("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.DealerUrl, _options.PageCount);
+        _logger.LogDebug("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.BaseUrl, _options.PageCount);
 
         return Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync).Merge();
     }
@@ -41,13 +41,13 @@ public class DealerRaterScrapper
         }
     }
 
-    private string BuildUrl(int page)
+    internal string BuildUrl(int page)
     {
-        var baseUrlBuilder = new StringBuilder(_options.DealerUrl);
+        var urlBuilder = new StringBuilder(_options.BaseUrl);
 
-        if (!_options.DealerUrl.EndsWith("/"))
-            baseUrlBuilder.Append('/');
+        if (!_options.BaseUrl.EndsWith("/"))
+            urlBuilder.Append('/');
 
-        return $"{baseUrlBuilder}page{page}/?filter=ONLY_POSITIVE#link";
+        return $"{urlBuilder}{_options.Dealer}/page{page}/?filter=ONLY_POSITIVE#link";
     }
 }

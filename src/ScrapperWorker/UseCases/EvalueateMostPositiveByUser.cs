@@ -24,12 +24,10 @@ public class EvalueateMostPositiveByUser : BackgroundService
 
         var ranked = _scrapper.GetReviewsAsync().RankByUsers(take: _options.Rank);
 
-        // Create a table
         var table = new Table()
                         .Centered()
                         .Border(TableBorder.Rounded);
 
-        // Add some columns
         table.AddColumn("Username");
         table.AddColumn("Sum of Rating");
 
@@ -44,7 +42,6 @@ public class EvalueateMostPositiveByUser : BackgroundService
                 ctx.Refresh();
             });
 
-        // Render the table to the console
         AnsiConsole.Write(table);
 
         _logger.LogWarning("Press CTRL+C to finish");
