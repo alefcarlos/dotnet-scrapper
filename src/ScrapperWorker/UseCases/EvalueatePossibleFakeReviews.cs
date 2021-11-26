@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using Scrapper.Application.DealerRater;
-using Scrapper.Application.ReviewsEvaluation.RankByUsers;
+using Scrapper.Application.ReviewsEvaluation.RankByMeanOfDetails;
 using Spectre.Console;
 
 namespace ScrapperWorker;
