@@ -1,4 +1,4 @@
-﻿namespace Scrapper.Application.ReviewsEvaluation.RankByUsers;
+﻿namespace Scrapper.Application.ReviewsEvaluation.RankByMeanOfDetails;
 
 public static class RankByMeanOfDetailsEval
 {

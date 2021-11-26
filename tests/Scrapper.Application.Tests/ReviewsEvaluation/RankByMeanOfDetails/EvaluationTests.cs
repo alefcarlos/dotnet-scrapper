@@ -1,9 +1,8 @@
-﻿using Scrapper.Application.ReviewsEvaluation.RankByUsers;
+﻿using Scrapper.Application.ReviewsEvaluation.RankByMeanOfDetails;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using static Scrapper.Application.ReviewsEvaluation.RankByUsers.RankByMeanOfDetailsEval;
 
 namespace Scrapper.Application.Tests.ReviewsEvaluation.RankByMeanOfDetails
 {
