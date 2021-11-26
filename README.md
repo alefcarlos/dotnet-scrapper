@@ -1,4 +1,4 @@
-# dotnet-scrapper [![build](https://github.com/alefcarlos/dotnet-scrapper/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/alefcarlos/dotnet-scrapper/actions/workflows/ci.yml)
+# dotnet-scrapper [![build](https://github.com/alefcarlos/dotnet-scrapper/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/alefcarlos/dotnet-scrapper/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/alefcarlos/dotnet-scrapper/branch/main/graph/badge.svg?token=lWcKCpZp5F)](https://codecov.io/gh/alefcarlos/dotnet-scrapper)
 
 ## Get started
 
