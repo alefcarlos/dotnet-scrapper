@@ -23,7 +23,7 @@ public class DealerRaterScrapper
     {
         _logger.LogDebug("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.BaseUrl, _options.PageCount);
 
-        return Enumerable.Range(1, _options.PageCount).Select(GetAsyncReviews).Merge();
+        return AsyncEnumerable.Range(1, _options.PageCount).Select(GetAsyncReviews).Merge();
     }
 
     public async IAsyncEnumerable<ReviewEntry> GetAsyncReviews(int currentPage)
