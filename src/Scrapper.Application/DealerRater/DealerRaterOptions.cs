@@ -1,5 +1,8 @@
-﻿namespace Scrapper.Application.DealerRater;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Scrapper.Application.DealerRater;
+
+[ExcludeFromCodeCoverage]
 public class DealerRaterOptions
 {
     public string BaseUrl { get; set; } = default!;
