@@ -19,14 +19,14 @@ public class DealerRaterScrapper
         _logger = logger;
     }
 
-    public IAsyncEnumerable<ReviewEntry> GetReviewsAsync()
+    public IAsyncEnumerable<ReviewEntry> GetAsyncReviews()
     {
         _logger.LogDebug("Starting DealerRaterScrapper using configurations: BaseUrl: {Url} PageCount: {PageCount}", _options.BaseUrl, _options.PageCount);
 
-        return Enumerable.Range(1, _options.PageCount).Select(GetReviewsAsync).Merge();
+        return Enumerable.Range(1, _options.PageCount).Select(GetAsyncReviews).Merge();
     }
 
-    public async IAsyncEnumerable<ReviewEntry> GetReviewsAsync(int currentPage)
+    public async IAsyncEnumerable<ReviewEntry> GetAsyncReviews(int currentPage)
     {
         _logger.LogDebug("Fetching page {currentPage}", currentPage);
 

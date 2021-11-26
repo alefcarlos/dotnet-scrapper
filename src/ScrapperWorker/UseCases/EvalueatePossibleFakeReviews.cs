@@ -20,9 +20,9 @@ public class EvalueatePossibleFakeReviews : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogDebug("Initializing EvalueateMostPositiveByUser");
+        _logger.LogDebug("Initializing EvalueatePossibleFakeReviews");
 
-        var ranked = _scrapper.GetReviewsAsync().RankByMeanOfDetails(take: _options.Rank, threshold: _options.Threshold);
+        var ranked = _scrapper.GetAsyncReviews().RankByMeanOfDetails(take: _options.Rank, threshold: _options.Threshold);
 
         var table = new Table()
                         .Centered()
