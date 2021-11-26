@@ -35,6 +35,14 @@ It is possible to configure Scrapper using these envs:
 
 It is possible to run unit tests using Docker
 
+Linux
+
+```
+docker run --rm -v $(pwd):/app -w /app/tests/Scrapper.Application.Tests mcr.microsoft.com/dotnet/sdk:6.0 dotnet test --logger:trx
+```
+
+Windows Powershell
+
 ```
 docker run --rm -v ${pwd}:/app -w /app/tests/Scrapper.Application.Tests mcr.microsoft.com/dotnet/sdk:6.0 dotnet test --logger:trx
 ```
