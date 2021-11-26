@@ -1,9 +1,12 @@
 ﻿using AngleSharp;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Scrapper.Application.DealerRater;
+
+[ExcludeFromCodeCoverage]
 public class DealerRaterScrapper
 {
     private readonly IBrowsingContext _context;
